@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import Input from "./components/Input";
 
 
-const baseURL = "https://jsonplaceholder.typicode.com/posts/1";
+const baseURL = "https://jsonplaceholder.typicode.com/posts";
 
 function App() {
   const [post, setPost] = useState();
 
   useEffect(() => {
-    axios.get(baseURL).then(response => {
+    axios.get(`${baseURL}/1`).then((response) => {
       setPost(response.data);
     });
   }, []) //empty [] as second argument to prevent rerender due to no dependencies
