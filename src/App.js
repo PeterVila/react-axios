@@ -14,6 +14,16 @@ function App() {
     });
   }, []) //empty [] as second argument to prevent rerender due to no dependencies
 
+  const createPost = () => {
+    axios
+      .post(baseURL, {
+        title: "Hello World!",
+        body: "This is a new post.",
+      })
+      .then((response) => {
+        setPost(response.data);
+      });
+  }
 
   return (
     <div className="App">
@@ -21,9 +31,10 @@ function App() {
         <>
           <h1>{post.title}</h1>
           <p>{post.body}</p>
+          <button onClick={createPost}>Update Post</button>
         </>
       )}
-      <Input/>
+      <Input />
     </div>
   );
 }
