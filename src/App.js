@@ -25,13 +25,25 @@ function App() {
       });
   }
 
+  const updatePost = () => {
+    axios
+      .put(`${baseURL}/1`, {
+        title: "Hello World!",
+        body: "This is an updated post.",
+      })
+      .then((response) => {
+        setPost(response.data);
+      });
+  }
+
   return (
     <div className="App">
       {post && (
         <>
           <h1>{post.title}</h1>
           <p>{post.body}</p>
-          <button onClick={createPost}>Update Post</button>
+          <button onClick={createPost}>Create Post</button>
+          <button onClick={updatePost}>Update Post</button>
         </>
       )}
       <Input />
