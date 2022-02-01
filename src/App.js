@@ -3,23 +3,27 @@ import { useState, useEffect } from 'react';
 import Input from "./components/Input";
 
 
-const baseURL = "https://jsonplaceholder.typicode.com/posts";
-
+const client = axios.create({
+  baseURL: "https://jsonplaceholder.typicode.com/posts",
+});
 function App() {
   const [post, setPost] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
-    axios.get(`${baseURL}/1`).then((response) => {
-      setPost(response.data);
-    }).catch(error => {
-      setError(error);
-    });
+    client
+      .get("/1")
+      .then((response) => {
+        setPost(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      });
   }, []) //empty [] as second argument to prevent rerender due to no dependencies
 
   const createPost = () => {
-    axios
-      .post(baseURL, {
+    client
+      .post(("/1"), {
         title: "Hello World!",
         body: "This is a new post.",
       })
@@ -29,8 +33,8 @@ function App() {
   }
 
   const updatePost = () => {
-    axios
-      .put(`${baseURL}/1`, {
+    client
+      .put("/1", {
         title: "Hello World!",
         body: "This is an updated post.",
       }) //JSON API successfully sends us our put request as a response
@@ -40,10 +44,11 @@ function App() {
   }
 
   const deletePost = () => {
-    axios.delete(`${baseURL}/1`).then(() => { //This then is not required, but ensures request was resolved
-      alert("Post deleted!");
-      setPost(null);
-    });
+   client.delete("/1").then(() => {
+     //This then is not required, but ensures request was resolved
+     alert("Post deleted!");
+     setPost(null);
+   });
   }
 
   if (error) return `Error: ${error.message}`;
